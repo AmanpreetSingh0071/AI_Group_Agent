@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 from graph import graph
 

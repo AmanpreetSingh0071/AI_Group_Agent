@@ -1,5 +1,3 @@
-# graph.py
-
 from langgraph.graph import StateGraph, END
 from tools import ask_reflective_question, rewrite_memoir_text, compile_memoir
 
