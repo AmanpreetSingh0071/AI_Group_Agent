@@ -1,5 +1,15 @@
+from typing import TypedDict, List, Optional  # ⬅️ ADD THIS
 from langgraph.graph import StateGraph, END
 from tools import ask_reflective_question, rewrite_memoir_text, compile_memoir
+
+# ⬅️ DEFINE THE EXPECTED STATE STRUCTURE
+class MemoirState(TypedDict):
+    step: int
+    user_inputs: List[str]
+    rewritten: List[str]
+    current_input: str
+    current_question: Optional[str]
+    final_story: Optional[str]
 
 def ask_node(state: dict) -> dict:
     step = state.get("step", 0)
@@ -55,3 +65,13 @@ builder.add_conditional_edges("rewrite", should_continue, {
 builder.add_edge("compile", END)
 
 graph = builder.compile()
+
+# OPTIONAL: Export SVG visualization for poster/report
+# Optional Visualization Output
+if __name__ == "__main__":
+    try:
+        gviz = graph.get_graph()
+        gviz.draw_svg("memoir_graph.svg")
+        print("✅ Saved SVG as memoir_graph.svg")
+    except Exception as e:
+        print(f"⚠️ Could not save SVG: {e}")

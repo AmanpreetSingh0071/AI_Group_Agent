@@ -1,9 +1,12 @@
 import streamlit as st
-from graph import graph
 from dotenv import load_dotenv
-from graph import ask_node 
+from graph import graph, ask_node
+from agent import memoir_agent  # ✅ Import the LangChain Agent
 
 load_dotenv()
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
 
 st.title("📘 AI Memoir Co-Writer")
 
@@ -53,6 +56,27 @@ if st.session_state.graph_state.get("final_story"):
     st.subheader("📖 Final Compiled Memoir")
     st.text_area("Your Memoir", st.session_state.graph_state["final_story"], height=300)
     st.download_button("📥 Download Memoir", st.session_state.graph_state["final_story"], file_name="my_memoir.txt")
+
+# 🤖 LangChain Agent Assistant Section
+st.markdown("---")
+st.subheader("🧠 Talk to the Memoir Coach Agent")
+for message in st.session_state.chat_history:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+agent_input = st.chat_input("Ask the memoir coach a question...")
+
+if agent_input:
+    st.session_state.chat_history.append({"role": "user", "content": agent_input})
+    with st.chat_message("user"):
+        st.markdown(agent_input)
+
+    with st.chat_message("assistant"):
+        with st.spinner("Memoir coach thinking..."):
+            agent_response = memoir_agent.run(agent_input)
+            st.markdown(agent_response)
+
+    st.session_state.chat_history.append({"role": "assistant", "content": agent_response})
 
 # 🐞 Debug Info
 with st.expander("🛠 Debug Info"):
