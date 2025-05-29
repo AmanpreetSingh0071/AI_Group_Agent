@@ -1,43 +1,59 @@
 import streamlit as st
 from graph import graph
+from dotenv import load_dotenv
+from graph import ask_node 
+
+load_dotenv()
 
 st.title("📘 AI Memoir Co-Writer")
 
-# Initialize session state
+# ✅ Initialize session state only once
 if "graph_state" not in st.session_state:
     st.session_state.graph_state = {
         "step": 0,
         "user_inputs": [],
         "rewritten": [],
-        "current_question": "Click Submit to begin."
+        "current_input": "",
+        "current_question": None,
+        "final_story": None
     }
 
-# Display current question
-st.subheader("Question")
+# ✅ Only call 'ask' once if no question has been asked — safely
+if st.session_state.graph_state["step"] == 0 and not st.session_state.graph_state["current_question"]:
+    st.session_state.graph_state = ask_node(dict(st.session_state.graph_state))
+
+# 🧠 Display current question
+st.subheader("Reflective Question")
 st.write(st.session_state.graph_state.get("current_question", ""))
 
-# Input form
+# 📝 User input form
 with st.form(key="memoir_form"):
-    user_input = st.text_area("Your answer", height=150)
+    user_input = st.text_area("Your memory or experience", height=150)
     submit = st.form_submit_button("Submit")
 
-if submit and user_input.strip():
-    st.session_state.graph_state["current_input"] = user_input.strip()
-    result = graph.invoke(dict(st.session_state.graph_state), config={"entry_point": "receive"})
-    st.session_state.graph_state.update(result)
-    st.rerun()
+# ➕ On Submit
+if submit:
+    user_input = user_input.strip()
+    if user_input:
+        st.session_state.graph_state["current_input"] = user_input
+        result = graph.invoke(dict(st.session_state.graph_state), config={"entry_point": "receive"})
+        st.session_state.graph_state.update(result)
+        st.rerun()
+    else:
+        st.warning("⚠️ Please write your memory before clicking Submit.")
 
-# Show rewritten so far
+# ✨ Display rewritten parts
 if st.session_state.graph_state.get("rewritten"):
     st.subheader("Your Memoir So Far")
     for idx, para in enumerate(st.session_state.graph_state["rewritten"], 1):
         st.markdown(f"**Part {idx}:** {para}")
 
-# Final story output
-if "final_story" in st.session_state.graph_state:
+# 📖 Final Memoir
+if st.session_state.graph_state.get("final_story"):
     st.subheader("📖 Final Compiled Memoir")
-    st.text_area("", st.session_state.graph_state["final_story"], height=300)
-    st.download_button("Download Memoir", st.session_state.graph_state["final_story"], file_name="my_memoir.txt")
+    st.text_area("Your Memoir", st.session_state.graph_state["final_story"], height=300)
+    st.download_button("📥 Download Memoir", st.session_state.graph_state["final_story"], file_name="my_memoir.txt")
 
-# Debug info
-st.write("🛠 Debug:", st.session_state.graph_state)
+# 🐞 Debug Info
+with st.expander("🛠 Debug Info"):
+    st.json(st.session_state.graph_state)
