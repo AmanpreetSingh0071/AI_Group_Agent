@@ -31,7 +31,7 @@ tools = [
     ),
     Tool(
         name="Compile Memoir",
-        func=lambda x: compile_memoir.invoke({"rewritten": x}),
+        func=lambda x: compile_memoir.invoke({"rewritten": [x] if isinstance(x, str) else x}),
         description="Compile a list of rewritten memoir paragraphs into a final story. Input must be a list of strings."
     )
 ]
