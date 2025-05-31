@@ -1,8 +1,8 @@
 from langchain_core.tools import tool
-from groq import OpenAI
+from groq import Groq
 import os
 
-client = OpenAI(
+client = Groq(
     base_url="https://api.groq.com/openai/v1",
     api_key=os.getenv("GROQ_API_KEY")
 )
