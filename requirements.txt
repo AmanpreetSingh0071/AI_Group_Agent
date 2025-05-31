@@ -4,3 +4,4 @@ langchain
 langgraph
 torch
 groq
+langchain-openai
