@@ -3,7 +3,7 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 
-load_dotenv()
+os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
 client = OpenAI(
     base_url="https://api.groq.com/openai/v1",

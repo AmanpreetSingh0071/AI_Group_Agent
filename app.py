@@ -1,14 +1,23 @@
 import streamlit as st
-from dotenv import load_dotenv
+import os
 from graph import graph, ask_node
 from agent import memoir_agent  # ✅ Import the LangChain Agent
 
-load_dotenv()
+os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
 st.title("📘 AI Memoir Co-Writer")
+
+# 🔒 Hide GitHub icon, menu, and footer
+st.markdown("""
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    </style>
+""", unsafe_allow_html=True)
 
 # ✅ Initialize session state only once
 if "graph_state" not in st.session_state:
@@ -77,7 +86,3 @@ if agent_input:
             st.markdown(agent_response)
 
     st.session_state.chat_history.append({"role": "assistant", "content": agent_response})
-
-# 🐞 Debug Info
-with st.expander("🛠 Debug Info"):
-    st.json(st.session_state.graph_state)

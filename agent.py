@@ -5,9 +5,8 @@ from tools.memoir_compile import compile_memoir
 from tools.memoir_questions import ask_reflective_question
 from langchain.agents import Tool
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
 # ✅ Groq-compatible OpenAI client for LangChain
 llm = ChatOpenAI(
