@@ -1,7 +1,5 @@
 from langchain_core.tools import tool
-from openai import OpenAI
 import os
-from dotenv import load_dotenv
 
 os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
