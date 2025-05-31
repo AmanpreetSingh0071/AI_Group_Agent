@@ -5,6 +5,7 @@ from tools.memoir_compile import compile_memoir
 from tools.memoir_questions import ask_reflective_question
 from langchain.agents import Tool
 import os
+import streamlit as st
 
 os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
