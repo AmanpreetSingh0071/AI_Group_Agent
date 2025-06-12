@@ -1,6 +1,7 @@
 from langchain_core.tools import tool
 from groq import Groq
 import os
+import traceback
 
 client = Groq(
     base_url="https://api.groq.com/openai/v1",
