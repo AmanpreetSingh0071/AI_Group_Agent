@@ -19,7 +19,7 @@ def rewrite_memoir_text(entry: str) -> str:
             max_tokens=256
         )
         return response.choices[0].message.content.strip()
-    except Exception:
+    except Exception as e:
         print("🔥 Memoir rewriting failed:", e)
         traceback.print_exc()
         return f"(fallback) {entry}"
