@@ -20,4 +20,6 @@ def rewrite_memoir_text(entry: str) -> str:
         )
         return response.choices[0].message.content.strip()
     except Exception:
+        print("🔥 Memoir rewriting failed:", e)
+        traceback.print_exc()
         return f"(fallback) {entry}"
