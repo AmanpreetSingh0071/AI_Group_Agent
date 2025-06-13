@@ -1,5 +1,5 @@
 from langchain.agents import initialize_agent, AgentType
-from langchain_groq import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from tools.memoir_rewrite import rewrite_memoir_text
 from tools.memoir_compile import compile_memoir
 from tools.memoir_questions import ask_reflective_question
