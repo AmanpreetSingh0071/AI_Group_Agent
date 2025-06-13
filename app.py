@@ -82,7 +82,7 @@ if agent_input:
 
     with st.chat_message("assistant"):
         with st.spinner("Memoir coach thinking..."):
-            agent_response = memoir_agent.run(agent_input)
+            agent_response = memoir_agent.invoke(agent_input)
             st.markdown(agent_response)
 
     st.session_state.chat_history.append({"role": "assistant", "content": agent_response})
