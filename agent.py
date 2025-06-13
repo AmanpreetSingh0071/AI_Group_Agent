@@ -12,7 +12,6 @@ os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 # ✅ Groq-compatible OpenAI client for LangChain
 llm = ChatOpenAI(
     model_name="llama3-8b-8192",
-    openai_api_base="https://api.groq.com/openai/v1",
     openai_api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.7
 )
