@@ -1,5 +1,5 @@
 from langchain.agents import initialize_agent, AgentType
-from langchain_groq import ChatGroq
+from langchain_groq import ChatOpenAI
 from tools.memoir_rewrite import rewrite_memoir_text
 from tools.memoir_compile import compile_memoir
 from tools.memoir_questions import ask_reflective_question
@@ -10,7 +10,7 @@ import streamlit as st
 os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
 
 # ✅ Groq-compatible OpenAI client for LangChain
-llm = ChatGroq(
+llm = ChatOpenAI(
     model_name="llama3-8b-8192",
     openai_api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.7
