@@ -1,4 +1,4 @@
-from langchain.agents import initialize_agent, AgentType
+from langchain.agents import create_react_agent, AgentExecutor
 from langchain_groq import ChatGroq
 from tools.memoir_rewrite import rewrite_memoir_text
 from tools.memoir_compile import compile_memoir
@@ -36,10 +36,8 @@ tools = [
 ]
 
 # ✅ Initialize agent
-memoir_agent = initialize_agent(
-    tools,
-    llm,
-    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+memoir_agent: AgentExecutor = create_react_agent(
+    tools=tools,
+    llm=llm,
     verbose=True,
-    handle_parsing_errors=True
 )
