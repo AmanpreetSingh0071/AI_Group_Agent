@@ -56,10 +56,23 @@ tools = [
 ]
 
 # ✅ Initialize agent
-memoir_agent = initialize_agent(
-    tools,
-    llm,
-    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=True,
-    handle_parsing_errors=True
-)
+# ===== Initialize agent (robust to differing langchain signatures) =====
+try:
+    # Preferred: pass agent type if supported (older langchain)
+    memoir_agent = initialize_agent(
+        tools,
+        llm,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True,
+        handle_parsing_errors=True,
+    )
+except TypeError as e:
+    # Some langchain versions (create_agent/create_react_agent) don't accept `agent` kw.
+    # Fall back to calling initialize_agent with a simpler signature.
+    # Try to preserve kwargs where possible.
+    try:
+        memoir_agent = initialize_agent(tools, llm, verbose=True, handle_parsing_errors=True)
+    except TypeError:
+        # Last-resort: try positional call (tools, llm)
+        memoir_agent = initialize_agent(tools, llm)
+# =========================================================================
