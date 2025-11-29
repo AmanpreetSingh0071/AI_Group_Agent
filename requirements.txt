@@ -1,6 +1,6 @@
 streamlit
 transformers
-langchain
+langchain==0.0.340
 langgraph
 torch
 groq
