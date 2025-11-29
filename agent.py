@@ -3,7 +3,27 @@ from langchain_groq import ChatGroq
 from tools.memoir_rewrite import rewrite_memoir_text
 from tools.memoir_compile import compile_memoir
 from tools.memoir_questions import ask_reflective_question
-from langchain.tools import Tool
+
+# --- Robust Tool import fallback ---
+try:
+    from langchain.tools import Tool
+except Exception:
+    try:
+        from langchain.agents import Tool
+    except Exception:
+        from dataclasses import dataclass
+        from typing import Any, Callable, Optional
+
+        @dataclass
+        class Tool:
+            name: str
+            func: Callable[..., Any]
+            description: Optional[str] = None
+
+            def __call__(self, *args, **kwargs) -> Any:
+                return self.func(*args, **kwargs)
+# -----------------------------------
+
 import os
 import streamlit as st
 
