@@ -3,7 +3,7 @@ from langchain_groq import ChatGroq
 from tools.memoir_rewrite import rewrite_memoir_text
 from tools.memoir_compile import compile_memoir
 from tools.memoir_questions import ask_reflective_question
-from langchain.agents import Tool
+from langchain.tools import Tool
 import os
 import streamlit as st
 
