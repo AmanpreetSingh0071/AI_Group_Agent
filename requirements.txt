@@ -1,8 +1,8 @@
 streamlit
 transformers
 langchain==0.0.340
-langgraph==0.0.63
-langgraph-checkpoint==0.0.7
+langgraph==1.0.4
+langgraph-checkpoint==1.0.4
 torch
 groq
 langchain-openai
