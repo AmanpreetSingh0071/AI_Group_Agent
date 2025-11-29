@@ -1,3 +1,4 @@
+import utils.compat
 import streamlit as st
 import os
 from graph import graph, ask_node
